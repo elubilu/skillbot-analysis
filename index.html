@@ -27,13 +27,31 @@
     </style>
 
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
     <!-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script> -->
     <script>
         var chart = null;
         var dataPoints1 = [];
 
         window.onload = function () {
+            var settings = {
+                'cache': false,
+                'dataType': "jsonp",
+                "async": true,
+                "crossDomain": true,
+                "url": "https://mongo-analytics-api.herokuapp.com/analytics/conv-count",
+                "method": "GET",
+                'Access-Control-Allow-Origin': '*'
+                // "headers": {
+                //     "accept": "application/json",
+                //     "Access-Control-Allow-Origin":"*"
+                // }
+            }
 
+            $.ajax(settings).done(function (response) {
+                console.log(response);
+
+            });
 
             const counters = document.querySelectorAll('.value');
             const speed = 500;
@@ -204,29 +222,16 @@
             //         method: 'GET', // or 'PUT'
             //         headers: {
             //             'Content-Type': 'application/json',
-            //             'Access-Control-Allow-Origin': '*',
+            //             'Access-Control-Allow-Origin': 'https://mongo-analytics-api.herokuapp.com',
             //             'Access-Control-Allow-Credentials' : true
             //         }
             //     })
             //     .then(response => response.json())  // convert to json
             //     .then(json => console.log(json))    //print data to console
             //     .catch(err => console.log('Request Failed', err)); // Catch errors
-            // const headers = {
-            //             'Content-Type': 'application/json',
-            //             'Access-Control-Allow-Origin': '*',
-            //             'Access-Control-Allow-Credentials' : true
-            //         };
-            fetch("https://mongo-analytics-api.herokuapp.com/analytics/conv-count", {
-                    mode: 'cors',
-                    credentials: 'include',
-                    method: 'GET',
-                    "Access-Control-Allow-Origin": '*' 
-                    // headers: headers
-                })
-                .then(response => response.json())
-                .then(json => console.log(json))
-                .catch(error => console.log('Authorization failed : ' + error.message));
             
+            
+           
 
         //     $.ajax({
         //     headers: { "Accept": "application/json"},
