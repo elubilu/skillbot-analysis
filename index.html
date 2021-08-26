@@ -27,7 +27,7 @@
     </style>
 
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
-    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
     <!-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script> -->
     <script>
         var chart = null;
@@ -41,7 +41,8 @@
                 "crossDomain": true,
                 "url": "https://mongo-analytics-api.herokuapp.com/analytics/conv-count",
                 "method": "GET",
-                'Access-Control-Allow-Origin': '*'
+                'Access-Control-Allow-Origin': '*',
+                "Accept": "application/json",
                 // "headers": {
                 //     "accept": "application/json",
                 //     "Access-Control-Allow-Origin":"*"
