@@ -28,19 +28,42 @@
 
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
     <script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
-    <!-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.25.1/moment.min.js"></script>
+
     <script>
         var chart = null;
         // var dataPoints1 = [];
         var totalUsers = 0;
 
         window.onload = async function () {
-            
+                
+
+            // console.log(moment().format('LTS'));
                 //Total Undefined Messages
                 var utc = new Date().toJSON().slice(0,10).replace(/-/g,'-');
                 
                 console.log(utc);
                
+                var totalUsers = 0;
+                await fetch('https://mongo-analytics-api.herokuapp.com/analytics/total-conv-count/default/default', {
+                    method: 'GET', // or 'PUT'
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Access-Control-Allow-Origin': '*',
+                        'Access-Control-Allow-Credentials' : true,
+                        'Access-Control-Allow-Headers': true
+                    }
+                })
+                .then(response => response.json())  // convert to json
+                .then(json =>{
+                    
+                        totalUsers += json.conversation_count;
+                        // console.log(totalUndefinedMsg);
+
+                })    //print data to console
+                .catch(err => console.log('Request Failed', err)); // Catch errors
+                
+                console.log(totalUsers);
 
                 
                 var totalUndefinedMsg = 0;
@@ -150,17 +173,13 @@
                 .then(response => response.json())  // convert to json
                 .then(value =>{
                     for (var i = 0; i < value.length; i++) {
-                        // console.log(value[i]);
-                        let utcDate = new Date(value[i].final_date); // 2020-06-21
-                        let shortMonth = utcDate.toLocaleString('en-us', { month: 'short' }); /* Jun */
-                        let finalMon = shortMonth+","+ utcDate.getFullYear();
-                        // console.log("Final" + finalMon);
+                        let val = moment(new Date(value[i].final_date)).format("MMM,YYYY");
                         datapoints1.push({
-                            x: finalMon,
+                            x: new Date(value[i].initial_date),
                             y: value[i].conversation_count
                         });
                     }
-                    chart.render();
+                    
                     // console.log(neutral);
                 })    //print data to console
                 .catch(err => console.log('Request Failed', err)); // Catch errors
@@ -219,7 +238,7 @@
 
 
             //Daily Visitor using api of the bot
-            chart = new CanvasJS.Chart("chartContainer", {
+            var chart = new CanvasJS.Chart("chartContainer", {
                 animationEnabled: true,
                 theme: "light2",
                 title: {
@@ -235,7 +254,7 @@
                     dataPoints: datapoints1
                 }]
             });
-
+            chart.render();
 
             // $.getJSON("https://canvasjs.com/data/gallery/javascript/daily-sales.json?callback=?", callback);
 
