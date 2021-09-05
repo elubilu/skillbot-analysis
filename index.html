@@ -128,12 +128,14 @@
                 })    //print data to console
                 .catch(err => console.log('Request Failed', err)); // Catch errors
 
-                var date = new Date();
-                var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
-                var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
-
+                // const startOfMonth = moment().startOf('month').format('YYYY-MM-DD');
+                // const endOfMonth   = moment().endOf('month').format('YYYY-MM-DD');
+                // const today   = moment(new Date()).format('YYYY-MM-DD');
+                const yesterday = moment().add(-1, 'days').format('YYYY-MM-DD')
+                const startDate = moment().add(-30, 'days').format('YYYY-MM-DD')
+                // console.log(startOfMonth+" First Day "+ today+" Today "+yesterday);
                 var datapoints2=[];
-                await fetch('https://mongo-analytics-api.herokuapp.com/analytics/interval-conv-count/default/default/default', {
+                await fetch(`https://mongo-analytics-api.herokuapp.com/analytics/interval-conv-count/${startDate}/${yesterday}/default`, {
                     method: 'GET', // or 'PUT'
                     headers: {
                         'Content-Type': 'application/json',
@@ -152,7 +154,7 @@
                             y: value[i].conversation_count
                         });
                     }
-                    chartVisitor.render();
+                    // chartVisitor.render();
                     // console.log(neutral);
                 })    //print data to console
                 .catch(err => console.log('Request Failed', err)); // Catch errors
@@ -174,8 +176,9 @@
                 .then(value =>{
                     for (var i = 0; i < value.length; i++) {
                         let val = moment(new Date(value[i].final_date)).format("MMM,YYYY");
+                        console.log(val);
                         datapoints1.push({
-                            x: new Date(value[i].initial_date),
+                            label: val,
                             y: value[i].conversation_count
                         });
                     }
@@ -304,9 +307,9 @@
                     indexLabel: "{label} - #percent%",
                     toolTipContent: "<b>{label}:</b> {y} (#percent%)",
                     dataPoints: [
-                        { y: neutral, label: "Neutral Message" },
-                        { y: pos, label: "Positive Message" },
-                        { y: neg, label: "Negative Message" }
+                        { y: neutral, label: "Neutral Review" },
+                        { y: pos, label: "Positive Review" },
+                        { y: neg, label: "Negative Review" }
                     ]
                 }]
             });
