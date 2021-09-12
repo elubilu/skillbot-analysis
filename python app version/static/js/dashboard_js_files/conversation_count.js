@@ -41,7 +41,7 @@ export function interval_count_conversation(initial_date,final_date,interval_typ
         $('#user-connection-trend-line-chart-notice').show();
         return;
       }
-      draw_user_connection_trend_line_chart(data);
+      draw_user_connection_trend_line_chart(data,interval_type);
       $('#user-connection-trend-line-chart').show();
     },
     error: function(){

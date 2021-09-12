@@ -46,18 +46,27 @@ message_analyzation_pie_chart = new Chart(context, {
 
 }
 
-export function draw_message_analyzation_trend_line_chart(dataset){
+export function draw_message_analyzation_trend_line_chart(dataset,interval_type){
 
 var labels=[];
 var data_identified_messages=[];
 var data_unidentified_messages=[];
 
 if(dataset.length!=0){
+  if(interval_type=='Monthly'){
     dataset.forEach(element => {
-        data_identified_messages.push(element.identified_message_count);
-        data_unidentified_messages.push(element.unidentified_message_count);
-        labels.push(element.final_date);
-    });
+      data_identified_messages.push(element.identified_message_count);
+      data_unidentified_messages.push(element.unidentified_message_count);
+      labels.push(moment(element.initial_date).format("MMM,YYYY"));
+  });
+  }
+  else{
+    dataset.forEach(element => {
+      data_identified_messages.push(element.identified_message_count);
+      data_unidentified_messages.push(element.unidentified_message_count);
+      labels.push(element.final_date);
+  });
+  }
 }
 
 Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';

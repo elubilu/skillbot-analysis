@@ -41,19 +41,19 @@ $(function(){
 
         switch(endpoint_index){
           case 0:
-            $('#user-connection-trend-header').text(interval+' - From '+initial_date+' To '+final_date);
+            $('#user-connection-trend-header').text(interval+' - From '+moment(initial_date).format("MMM DD,YYYY")+' To '+moment(final_date).format("MMM DD,YYYY"));
             interval_count_conversation(initial_date,final_date,interval);
             break;
           case 1:
-            $('#message-analyzation-pie-chart-header').text(' From '+initial_date+' To '+final_date);
+            $('#message-analyzation-pie-chart-header').text(' From '+moment(initial_date).format("MMM DD,YYYY")+' To '+moment(final_date).format("MMM DD,YYYY"));
             message_summary_custom_dates(initial_date,final_date);
             break;
           case 2:
-            $('#message-analyzation-line-chart-header').text(interval+' - From '+initial_date+' To '+final_date);
+            $('#message-analyzation-line-chart-header').text(interval+' - From '+moment(initial_date).format("MMM DD,YYYY")+' To '+moment(final_date).format("MMM DD,YYYY"));
             interval_message_summary(initial_date,final_date,interval);
             break;
           case 3:
-            $('#popular-intent-list-header').text(' From '+initial_date+' To '+final_date);
+            $('#popular-intent-list-header').text(' From '+moment(initial_date).format("MMM DD,YYYY")+' To '+moment(final_date).format("MMM DD,YYYY"));
             default_popular_intents_load(initial_date,final_date);
             break;
         }

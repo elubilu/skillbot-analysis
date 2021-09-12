@@ -1,14 +1,22 @@
 var user_trend_chart;
-export function draw_user_connection_trend_line_chart(dataset){
+export function draw_user_connection_trend_line_chart(dataset,interval_type){
 
 var labels=[];
 var data=[];
-console.log(dataset);
+
 if(dataset.length!=0){
+  if (interval_type=='Monthly'){
     dataset.forEach(element => {
-        labels.push(element.initial_date);
-        data.push(element.conversation_count);
-    });
+      labels.push(moment(element.initial_date).format("MMM,YYYY"));
+      data.push(element.conversation_count);
+  });
+  }else{
+    dataset.forEach(element => {
+      labels.push(element.initial_date);
+      data.push(element.conversation_count);
+  });
+  }
+    
 }
 
 Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';

@@ -75,7 +75,7 @@ export function interval_message_summary(initial_date,final_date,interval_type){
                 $('#message-analyzation-trend-line-chart-notice').show();
                 return;
             }
-            draw_message_analyzation_trend_line_chart(data);
+            draw_message_analyzation_trend_line_chart(data,interval_type);
             $('#message-analyzation-trend-line-chart').show();
         },
         error: function(){
