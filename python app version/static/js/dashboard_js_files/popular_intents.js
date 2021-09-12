@@ -1,12 +1,14 @@
-export function default_popular_intents_load(){
+export function default_popular_intents_load(initial_date,final_date){
 
     $.ajax({
       type: 'GET',
-      url: `https://mongo-analytics-api.herokuapp.com/analytics/overall-popular-intents/default/default`,       //the script to call to get data
+      url: `https://mongo-analytics-api.herokuapp.com/analytics/overall-popular-intents/${initial_date}/${final_date}`,       //the script to call to get data,       //the script to call to get data
       dataType: 'json',          
       beforeSend:function(){
+        $('#popular-intents-loader').show();
       },
       success: function(data){
+        $('#popular-intent-list-card').empty();
         $('#popular-intents-loader').hide();
           if (data.popular_intents.length!=0){
               data.popular_intents.forEach(element=>{
@@ -15,7 +17,7 @@ export function default_popular_intents_load(){
               });
           }
           else{
-            $('#popular-intent-list-card').append(`<h4 class="small font-weight-bold">Sorry, data to show.</h4>`);      
+            $('#popular-intent-list-card').append(`<h4 class="small font-weight-bold text-center">Sorry, no data found.</h4>`);      
           }
       },
       error: function(){
@@ -27,3 +29,5 @@ export function default_popular_intents_load(){
       }
     });
   }
+
+ 

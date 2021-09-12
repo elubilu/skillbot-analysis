@@ -1,8 +1,9 @@
+var user_trend_chart;
 export function draw_user_connection_trend_line_chart(dataset){
 
 var labels=[];
 var data=[];
-
+console.log(dataset);
 if(dataset.length!=0){
     dataset.forEach(element => {
         labels.push(element.initial_date);
@@ -13,18 +14,22 @@ if(dataset.length!=0){
 Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
 Chart.defaults.global.defaultFontColor = '#858796';
 
-var context = document.getElementById("user-connection-trend-line-chart");
+if (user_trend_chart){
+  user_trend_chart.destroy();
+}
 
-var  chart= new Chart(context, {
+var context= document.getElementById("user-connection-trend-line-chart");
+
+user_trend_chart= new Chart(context, {
     type: 'line',
     data: {
       labels: labels,
       datasets: [{
         label: "Total New User",
-        lineTension: 0.1,
+        lineTension: 0.3,
         backgroundColor: "rgba(159, 181, 165, 0.05)",
         borderColor: "rgba(159, 181, 165, 1)",
-        pointRadius: 2,
+        pointRadius: 1,
         pointBackgroundColor: "rgba(159, 181, 165, 1)",
         pointBorderColor: "rgba(159, 181, 165, 1)",
         pointHoverRadius: 3,

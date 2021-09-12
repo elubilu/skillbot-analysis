@@ -14,15 +14,15 @@
     <!-- Custom fonts for this template-->
     
 
-    <link href="{{ url_for('static',filename='vendor/fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{ url_for('static',filename='js/dashboard_js_files/vendor/fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">
     
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
 
     <!-- Custom styles for this template-->
-    <link href="{{ url_for('static',filename='css/sb-admin-2.min.css')}}" rel="stylesheet">
-    <link href="{{ url_for('static',filename='css/dashboard.css')}}" rel="stylesheet">
+    <link href="{{ url_for('static',filename='css/dashboard_css_files/sb-admin-2.min.css')}}" rel="stylesheet">
+    <link href="{{ url_for('static',filename='css/dashboard_css_files/dashboard.css')}}" rel="stylesheet">
 
 </head>
 
@@ -35,7 +35,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" >
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-robot"></i>
                 </div>
@@ -46,8 +46,8 @@
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
-                <a class="nav-link" href="index.html">
+            <li id="listitem1" class="nav-item active">
+                <a class="nav-link" href="#">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
@@ -64,29 +64,29 @@
             <hr class="sidebar-divider">
 
             <!-- Nav Item - User conection Trend - Line chart  -->
-            <li class="nav-item">
-                <a class="nav-link" href="#users">
+            <li class="nav-item scroller" data-target="connection-trend">
+                <a class="nav-link" >
                     <i class="fas fa-fw fa-chart-line"></i>
                     <span>Connection Trend</span></a>
             </li>
             
             <!-- Nav Item - Message Summary - Pie Chart  -->
-            <li class="nav-item">
-                <a class="nav-link" href="charts.html">
+            <li class="nav-item scroller" data-target="message-summary-pie-chart">
+                <a class="nav-link">
                     <i class="fas fa-fw fa-chart-pie"></i>
                     <span>Message Summary</span></a>
             </li>
             
             <!-- Nav Item - Message Summary Trend- Line Chart  -->
-            <li class="nav-item">
-                <a class="nav-link" href="charts.html">
+            <li class="nav-item scroller" data-target="message-summary-line-chart">
+                <a class="nav-link" >
                     <i class="fas fa-fw fa-chart-bar"></i>
                     <span>Message Trend</span></a>
             </li>
             
             <!-- Nav Item - Popular Intents -->
-            <li class="nav-item">
-                <a class="nav-link" href="tables.html">
+            <li class="nav-item scroller" data-target="intent-list">
+                <a class="nav-link" >
                     <i class="fas fa-fw fa-list"></i>
                     <span>Popular Intents</span></a>
             </li>
@@ -204,34 +204,38 @@
                     <!-- Content Row Charts -->
 
                     <div class="row">
-
+                        
                         <!-- New User connection - Line Chart -->
                         <div class="col-md-12 col-xl-12 col-lg-6">
                             <div class="card shadow mb-4">
                                 <!-- Card Header - Dropdown -->
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">New users connection Overview</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">New users connection Overview : <span id="user-connection-trend-header"></span></h6>
                                     <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                        <a id="connection-trend" class="dropdown-toggle" role="button" id="dropdownMenuLink"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
                                         </a>
                                         <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                                             aria-labelledby="dropdownMenuLink">
                                             <div class="dropdown-header">Select Inverval : </div>
-                                            <a class="dropdown-item" href="#">Daily</a>
-                                            <a class="dropdown-item" href="#">Weekly</a>
-                                            <a class="dropdown-item" href="#">Monthly</a>
-                                            <a class="dropdown-item" href="#">Yearly</a>
+                                            <a class="dropdown-item trend-conversation" >Daily</a>
+                                            <a class="dropdown-item trend-conversation" >Weekly</a>
+                                            <a class="dropdown-item trend-conversation" >Monthly</a>
+                                            
 
                                         </div>
+                                        
+
                                     </div>
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">
-                                    <div class="chart-area">
+                                    <div class="chart-area" id="user-trend-canvas-div">
                                         <canvas id="user-connection-trend-line-chart"></canvas>
+                                        <div id="user-connection-trend-line-chart-notice" class="text-center" style="display: none;padding-top: 15%;"></div>
+                                        <div id="user-connection-trend-data-loader" class="text-center" style="padding-top: 15%;"><i class="fas fa-spinner fa-pulse" ></i></div>
                                     </div>
                                 </div>
                             </div>
@@ -243,19 +247,16 @@
                                 <!-- Card Header - Dropdown -->
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Message Analyzation Summary</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary" >Message Analyzation Summary : <span id="message-analyzation-pie-chart-header"></span></h6>
                                     <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                        <a id="message-summary-pie-chart" class="dropdown-toggle" role="button" id="dropdownMenuLink"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
                                         </a>
                                         <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                                             aria-labelledby="dropdownMenuLink">
                                             <div class="dropdown-header">Select Inverval : </div>
-                                            <a class="dropdown-item" href="#">Daily</a>
-                                            <a class="dropdown-item" href="#">Weekly</a>
-                                            <a class="dropdown-item" href="#">Monthly</a>
-                                            <a class="dropdown-item" href="#">Yearly</a>
+                                            <a class="dropdown-item pie-chart-msg-summary" >Select Dates</a> 
 
                                         </div>
                                     </div>
@@ -263,7 +264,9 @@
                                 <!-- Card Body -->
                                 <div class="card-body">
                                     <div class="chart-pie pt-4 pb-2">
-                                        <canvas id="message-analyzation-pie-chart"></canvas>
+                                        <canvas id="message-analyzation-pie-chart" style="display: none;"></canvas>
+                                        <div id="message-analyzation-pie-chart-notice" class="text-center" style="padding-top: 10%;display: none;"></div>
+                                        <div id="message-analyzation-pie-chart-data-loader" class="text-center"  style="padding-top: 10%;"><i class="fas fa-spinner fa-pulse" ></i></div>
                                     </div>
                                     <div class="mt-4 text-center small">
                                         <span class="mr-2">
@@ -276,26 +279,26 @@
                                 </div>
                             </div>
                         </div>
-
+                        
                         <!-- Message Analyzation Summary - Multiple Line Chart -->
                         <div class="col-md-12 col-xl-12 col-lg-6">
                             <div class="card shadow mb-4">
                                 <!-- Card Header - Dropdown -->
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Message Analyzation Trend</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">Message Analyzation Trend : <span  id="message-analyzation-line-chart-header"></span></h6>
                                     <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                        <a id="message-summary-line-chart" class="dropdown-toggle" role="button" id="dropdownMenuLink"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
                                         </a>
                                         <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                                             aria-labelledby="dropdownMenuLink">
                                             <div class="dropdown-header">Select Inverval : </div>
-                                            <a class="dropdown-item" href="#">Daily</a>
-                                            <a class="dropdown-item" href="#">Weekly</a>
-                                            <a class="dropdown-item" href="#">Monthly</a>
-                                            <a class="dropdown-item" href="#">Yearly</a>
+                                            <a class="dropdown-item trend-msg-analysis" >Daily</a>
+                                            <a class="dropdown-item trend-msg-analysis" >Weekly</a>
+                                            <a class="dropdown-item trend-msg-analysis" >Monthly</a>
+                                            
 
                                         </div>
                                     </div>
@@ -303,7 +306,9 @@
                                 <!-- Card Body -->
                                 <div class="card-body">
                                     <div class="chart-area">
-                                        <canvas id="message-analyzation-trend-line-chart"></canvas>
+                                        <canvas id="message-analyzation-trend-line-chart" style="display: none;"></canvas>
+                                        <div id="message-analyzation-trend-line-chart-notice" class="text-center" style="padding-top: 10%; display: none;"></div>
+                                        <div id="message-analyzation-trend-line-chart-data-loader" class="text-center" style="padding-top: 10%; display: none;"><i class="fas fa-spinner fa-pulse" ></i></div>
                                     </div>
                                 </div>
                             </div>
@@ -315,25 +320,22 @@
 
                         <!-- Content Column -->
                         <div class="col-lg-6 mb-4">
-
+                            
                             <!-- Top 10 intents - Card -->
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Top 10 Matched Intents</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary" >Top 10 Matched Intents : <span id="popular-intent-list-header"></span></h6>
                                     <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#users" role="button" id="dropdownMenuLink"
+                                        <a id="intent-list" class="dropdown-toggle" role="button" id="dropdownMenuLink"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
                                         </a>
                                         <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                                             aria-labelledby="dropdownMenuLink">
                                             <div class="dropdown-header">Select Inverval : </div>
-                                            <a class="dropdown-item" href="#">Daily</a>
-                                            <a class="dropdown-item" href="#">Weekly</a>
-                                            <a class="dropdown-item" href="#">Monthly</a>
-                                            <a class="dropdown-item" href="#">Yearly</a>
-
+                                            <a class="dropdown-item list-intent" >Select Dates</a>                                            
                                         </div>
+
                                     </div>
                                 </div>
                                 <div id="popular-intent-list-card" class="card-body">
@@ -355,7 +357,7 @@
             <!-- Footer -->
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
+                    <div id="feet" class="copyright text-center my-auto">
                         <span>Copyright &copy; Skillbot</span>
                     </div>
                 </div>
@@ -372,25 +374,57 @@
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
+
+    <!------------------------------------------------ MODAL FOR DATE INPUT - BEGINNING --------------------------------->
+    <div class="modal fade" id="date-input-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="date-input-modal-title"></h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form>
+                <div class="form-group">
+                  <label for="initial-date" class="col-form-label">Initial Date: </label>
+                  <input type="date" class="form-control" id="initial-date" />
+                </div>
+                <div class="form-group">
+                  <label for="final-date" class="col-form-label">Final Date:</label>
+                  <input type="date" class="form-control" id="final-date" />
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button id="btn-confirm-dates" type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    <!------------------------------------------------ MODAL FOR DATE INPUT - ENDING --------------------------------->
     
 
     <!-- Bootstrap core JavaScript-->
-    <script src="{{ url_for('static',filename='vendor/jquery/jquery.min.js')}}"></script>
-    <script src="{{ url_for('static',filename='vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+    <script src="{{ url_for('static',filename='js/dashboard_js_files/vendor/jquery/jquery.min.js')}}"></script>
+    <script src="{{ url_for('static',filename='js/dashboard_js_files/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 
     <!-- Core plugin JavaScript-->
-    <script src="{{ url_for('static',filename='vendor/jquery-easing/jquery.easing.min.js')}}"></script>
+    <script src="{{ url_for('static',filename='js/dashboard_js_files/vendor/jquery-easing/jquery.easing.min.js')}}"></script>
 
     <!-- Custom scripts for all pages-->
-    <script src="{{ url_for('static',filename='js/sb-admin-2.min.js')}}"></script>
+    <script src="{{ url_for('static',filename='js/dashboard_js_files/sb-admin-2.min.js')}}"></script>
 
     <!-- Page level plugins -->
-    <script src="{{ url_for('static',filename='vendor/chart.js/Chart.min.js')}}"></script>
+    <script src="{{ url_for('static',filename='js/dashboard_js_files/vendor/chart.js/Chart.min.js')}}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.0.0/chartjs-plugin-datalabels.min.js" integrity="sha512-R/QOHLpV1Ggq22vfDAWYOaMd5RopHrJNMxi8/lJu8Oihwi4Ho4BRFeiMiCefn9rasajKjnx9/fTQ/xkWnkDACg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <!-- Page level custom scripts -->
     
-    <script src="{{ url_for('static',filename='js/index.js')}}" type="module"></script>
+    <script src="{{ url_for('static',filename='js/dashboard_js_files/index.js')}}" type="module"></script>
 
 </body>
 

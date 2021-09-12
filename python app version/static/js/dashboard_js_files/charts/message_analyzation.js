@@ -1,3 +1,4 @@
+var message_analyzation_pie_chart,message_analyzation_line_chart;
 export function draw_message_analyzation_doughnut_chart(dataset){
 
     var labels=['Identified messages','Unidentified messages'];
@@ -7,9 +8,12 @@ export function draw_message_analyzation_doughnut_chart(dataset){
 Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
 Chart.defaults.global.defaultFontColor = '#858796';
 
+if(message_analyzation_pie_chart){
+  message_analyzation_pie_chart.destroy();
+}
 // Pie Chart Example
 var context = document.getElementById("message-analyzation-pie-chart");
-var PieChart = new Chart(context, {
+message_analyzation_pie_chart = new Chart(context, {
   type: 'doughnut',
   data: {
     labels: labels,
@@ -18,6 +22,7 @@ var PieChart = new Chart(context, {
       backgroundColor: ['#4e73df', '#1cc88a'],
       hoverBackgroundColor: ['#2e59d9', '#17a673'],
       hoverBorderColor: "rgba(234, 236, 244, 1)",
+     
     }],
   },
   options: {
@@ -59,8 +64,10 @@ Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,Bli
 Chart.defaults.global.defaultFontColor = '#858796';
 
 var context = document.getElementById("message-analyzation-trend-line-chart");
-
-var  chart= new Chart(context, {
+if (message_analyzation_line_chart){
+  message_analyzation_line_chart.destroy();
+}
+message_analyzation_line_chart= new Chart(context, {
     type: 'line',
     data: {
       labels: labels,
@@ -155,3 +162,4 @@ var  chart= new Chart(context, {
   });
 
 }
+
